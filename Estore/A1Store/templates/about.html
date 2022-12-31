@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>About</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+</head>
+<body bgcolor="-135deg, #71b7e6, #9b59b6">
+ <nav>
+    <div class="menu">
+      <div class="logo">
+        <a href="#">A1-Store</a>
+      </div>
+      <ul>
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/service">Service</a></li>
+        {% if not request.user.is_authenticated %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% else %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav><br><br><br><br><br><br>
+<h2 style="background-color:#FFFF00" ;><center>About Us:</center></h2>
+
+<h3>Great Products Comes First</h3>
+ <p style="front-family:Roboto;font-size:35px;">E-store India Private Limited is a Private incorporated on 04 January 2005. It is classified as Non-govt company and is registered at Registrar of Companies, Hyderabad. Its authorized share capital is Rs. 165,000,000 and its paid up capital is Rs. 45,000,000. It is inolved in Wholesale of agricultural raw material, live animals, food beverages and tobacco
+
+E-store India Private Limited's Annual General Meeting (AGM) was last held on 30 September 2009 and as per records from Ministry of Corporate Affairs (MCA), its balance sheet was last filed on 31 March 2009.</p>>
+ <h3 style="front-family:Roboto;font-size:25px;">A1-Store</h3>
+<b style="front-family:Roboto;font-size:25px;">Phone Number: <ul>1-866-394-2493</ul></b>
+</body>
+</html>

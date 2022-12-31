@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+
+</head>
+<body>
+<nav>
+    <div class="menu">
+      <div class="logo">
+        <a href="#">A1-Store</a>
+      </div>
+      <ul>
+        <li><a href="/">HOME</a></li>
+        <li><a href="/menu">Products</a></li>
+        {% if not request.user.is_authenticated %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% else %}
+          <li><a href="/history">Orders</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav><br><br><br><br><br><br>
+
+
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <h1>Cart</h1>
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">sno.</th>
+        <th scope="col">Image</th>
+      <th scope="col">product</th>
+      <th scope="col">price</th>
+      <th scope="col">quantity</th>
+        <th scope="col">total</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product  in products %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td><img  style="height:80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
+      <td>{{product.name}}</td>
+      <td>{{product.price|currency}}</td>
+      <td>{{product|cart_quantity:request.session.cart}}</td>
+        <td>{{product|price_total:request.session.cart|currency}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="4">Total</th>
+                <th> {{products|total_cart_price:request.session.cart|currency}}</th>
+            </tr>
+            </tfoot>
+        </table>
+
+        <div class="m-3 p-3">
+            <a href="#" class="btn btn-outline-info border rounded col-log-3 float-right" data-toggle="modal" data-target="#exampleModal">check out</a>
+        </div>
+</div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">CHECKOUT FORM HERE</h5><hr>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="m-2 p-3">
+                    <form action="/check-out" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Address</label>
+                            <input type="text" name="address" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone</label>
+                            <input type="text" name="phone" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                            <input type="submit"  class="btn btn-outline-info border rounded col-log-3 float-right"  value="check-out">
+                        </form>
+                        </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
